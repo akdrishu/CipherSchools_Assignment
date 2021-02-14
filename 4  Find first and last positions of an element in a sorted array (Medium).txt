@@ -1,0 +1,57 @@
+//https://www.geeksforgeeks.org/find-first-and-last-positions-of-an-element-in-a-sorted-array/// author: Ayush Dwivedi
+// author: Ayush Dwivedi
+#include "bits/stdc++.h"
+
+using namespace std;
+#define debug(...) cout<< " [" << #__VA_ARGS__ ": " << (__VA_ARGS__) << "] " ;
+typedef long long int ll;
+const ll mod = 1e9 + 7;
+
+int first(int a[], int size, int item){
+    int low=0,high=size-1;
+    int index=size-1;
+    while(low<=high){
+        int mid= low+(high-low)/2;
+        if(a[mid]>=item){
+            if(a[mid]==item)index=min(index,mid);
+            high=mid-1;
+            continue;
+        }
+        if(a[mid]<item) low=mid+1;
+    }
+    return index;
+}
+int last(int a[], int size, int item){
+    int low=0,high=size-1;
+    int index=0;
+    while(low<=high){
+        int mid= low+(high-low)/2;
+        if(a[mid]<=item){
+            if(a[mid]==item)index=max(index,mid);
+            low=mid+1;
+            continue;
+        }
+        if(a[mid]>item) high=mid-1;
+    }
+    return index;
+}
+void solve(){
+    int n,item;
+    cin>>n>>item;
+    int arr[n];
+    for (int i = 0; i < n; ++i) {
+        cin>>arr[i];
+    }
+    cout<<first(arr,n,item)<<" "<<last(arr,n,item);
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    int tt;
+    cin>>tt;
+    while(tt--){
+        solve();
+    }
+}
