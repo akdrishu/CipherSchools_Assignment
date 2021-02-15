@@ -1,0 +1,35 @@
+//https://www.geeksforgeeks.org/find-the-missing-number/
+// author: Ayush Dwivedi
+#include "bits/stdc++.h"
+
+using namespace std;
+#define debug(...) cout<< " [" << #__VA_ARGS__ ": " << (__VA_ARGS__) << "] " ;
+typedef long long int ll;
+const ll mod = 1e9 + 7;
+
+
+void solve() {
+    int n;
+    cin>>n;
+    int arr[n-1];
+    int xor1=0,xor2=0;
+    for (int i = 0; i < n-1; ++i) {
+        xor1^=(i+1);
+        cin>>arr[i];
+        xor2^=(arr[i]);
+    }
+    xor1^=n;
+    cout<<(xor1^xor2)<<endl;
+
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    int tt;
+    cin >> tt;
+    while (tt--) {
+        solve();
+    }
+}

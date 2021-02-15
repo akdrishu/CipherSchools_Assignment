@@ -1,0 +1,42 @@
+//https://www.geeksforgeeks.org/stock-buy-sell/
+// author: Ayush Dwivedi
+#include "bits/stdc++.h"
+
+using namespace std;
+#define debug(...) cout<< " [" << #__VA_ARGS__ ": " << (__VA_ARGS__) << "] " ;
+typedef long long int ll;
+const ll mod = 1e9 + 7;
+
+
+void solve() {
+    int n;
+    cin >> n;
+    int arr[n];
+    for (int i = 0; i < n; ++i) {
+        cin >> arr[i];
+    }
+    if (n == 1) {
+        cout << arr[0];
+        return;
+    }
+    int sum = 0;
+    for(int i=0;i<n-1;i++) {
+        while ((i < n - 1) && (arr[i + 1] <= arr[i]))
+            i++;
+        if (i == n - 1)
+            break;
+        int buy = i++;
+        while ((i < n) && (arr[i] >= arr[i - 1]))
+            i++;
+        int sell = i - 1;
+        sum += arr[sell] - arr[buy];
+    }
+    cout << sum;
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    solve();
+}
