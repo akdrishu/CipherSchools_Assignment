@@ -1,0 +1,75 @@
+// N queen problem
+// author: ayush dwivedi
+
+#include <bits/stdc++.h>
+
+using namespace std;
+#define debug(...) cout<< " [" << #__VA_ARGS__ ": " << (__VA_ARGS__) << "] " ;
+
+bool is_valid(int i, int j, vector<vector<int>> &vis) {
+    int n = vis.size();
+    for (int k = 0; k < vis.size(); ++k) {
+        if (vis[k][j] == 1 && k != i) return false;
+    }
+    for (int k = 0; k < vis.size(); ++k) {
+        if (vis[i][k] == 1 && k != j) return false;
+    }
+    for (int k = i - 1, l = j - 1; k >= 0 && l >= 0; --k, --l) {
+        if (vis[k][l] == 1) return false;
+    }
+    for (int k = i + 1, l = j - 1; k < n && l >= 0; ++k, --l) {
+        if (vis[k][l] == 1) return false;
+    }
+    for (int k = i + 1, l = j + 1; k < n && l < n; ++k, ++l) {
+        if (vis[k][l] == 1) return false;
+    }
+    for (int k = i - 1, l = j + 1; k >= 0 && l < n; --k, ++l) {
+        if (vis[k][l] == 1) return false;
+    }
+    return true;
+}
+
+bool placed(int i, int j, vector<vector<int>> &vis) {
+//    debug(i) debug(j)
+    vis[i][j] = 1;
+//    for(auto &x:vis){
+//        for(auto &y:x)  cout<<y<<" ";
+//        cout<<endl;
+//    }
+    if (i == vis.size() - 1) {
+        if (is_valid(i, j, vis)) return true;
+        else {
+            vis[i][j] = 0;
+            return false;
+        }
+    }
+    for (int k = 0; k < vis.size(); ++k) {
+        if (is_valid(i + 1, k, vis)) {
+            if(placed(i + 1, k, vis))   return true;
+        }
+    }
+    vis[i][j] = 0;
+    return false;
+}
+
+
+int main() {
+    ios_base::sync_with_stdio(0);
+    int n;
+    cin >> n;
+    bool flag=false;
+    int count=0;
+    for (int i = 0; i < n; ++i) {
+        vector<vector<int>> vis(n, vector<int>(n));
+        if (placed(0, i, vis)) {
+            cout<<"arrangement no: "<<++count<<endl;
+            for (auto &x:vis) {
+                for (auto &y:x) cout << y << " ";
+                cout << endl;
+            }
+            cout<<endl;
+            flag=true;
+        }
+    }
+    if(!flag) cout << "No possible arrangement";
+}

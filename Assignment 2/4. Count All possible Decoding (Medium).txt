@@ -1,0 +1,33 @@
+//https://www.geeksforgeeks.org/count-possible-decodings-given-digit-sequence/
+// author: ayush dwivedi
+#include "bits/stdc++.h"
+
+using namespace std;
+#define debug(...) cout<< " [" << #__VA_ARGS__ ": " << (__VA_ARGS__) << "] " ;
+typedef long long int ll;
+const ll mod = 1e9 + 7;
+
+void solve(int index, string &exp, int n, string ans){
+    if(index>=n-1){
+        if(index==n-1)  ans+=('a'+int(exp[index]-'0')-1);
+        cout<<ans<<" ";
+        return;
+    }
+    int curr= int(exp[index]-'0');
+    int next= 10*int(exp[index]-'0')+int(exp[index+1]-'0');
+    if(curr>0 && curr<27){
+        char c=char('a'+(curr-1));
+        solve(index+1,exp,n,ans+c);
+    }
+    if(next>0 && next<27){
+        char c=char('a'+(next-1));
+        solve(index+2,exp,n,ans+c);
+    }
+}
+int main() {
+    ios_base::sync_with_stdio(false);
+    string exp;
+    cin>>exp;
+    int n=exp.length();
+    solve(0,exp,n,"");
+}

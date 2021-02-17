@@ -1,0 +1,21 @@
+//https://www.geeksforgeeks.org/count-possible-paths-top-left-bottom-right-nxm-matrix/
+// author: ayush dwivedi
+#include "bits/stdc++.h"
+
+using namespace std;
+#define debug(...) cout<< " [" << #__VA_ARGS__ ": " << (__VA_ARGS__) << "] " ;
+typedef long long int ll;
+const ll mod = 1e9 + 7;
+
+
+int solve(int n, int m){
+    if(n==0 || m==0)    return 1;
+    return solve(n-1,m)+solve(n,m-1);
+}
+int main() {
+    ios_base::sync_with_stdio(false);
+    int n,m;
+    cin>>n>>m;
+    cout<<solve(--n,--m);
+
+}
