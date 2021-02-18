@@ -1,0 +1,36 @@
+// https://www.geeksforgeeks.org/subset-sum-backtracking-4/
+// author: ayush dwivedi
+
+#include <bits/stdc++.h>
+
+using namespace std;
+#define debug(...) cout<< " [" << #__VA_ARGS__ ": " << (__VA_ARGS__) << "] " ;
+
+void solve(int index, int arr[],int n, vector<int> ans , int k){
+//    debug(ans.size())
+    if(index==n){
+        int sum=0;
+        for(auto &x: ans)   sum+=x;
+        if(sum==k){
+            for(auto &x:ans)    cout<<x<<" ";
+            cout<<endl;
+        }
+        return;
+    }
+    ans.push_back(arr[index]);
+    solve(index+1,arr,n,ans,k);
+    ans.pop_back();
+    solve(index+1,arr,n,ans,k);
+}
+int main() {
+    ios_base::sync_with_stdio(0);
+    int n,k;
+    cin>>n>>k;
+    int arr[n];
+    for (int i = 0; i <n ; ++i) {
+        cin>>arr[i];
+    }
+    vector<int> ans;
+    solve(0, arr,  n, ans,  k);
+}
+

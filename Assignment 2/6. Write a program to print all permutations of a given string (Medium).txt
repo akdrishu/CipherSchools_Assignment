@@ -1,0 +1,30 @@
+// https://www.geeksforgeeks.org/write-a-c-program-to-print-all-permutations-of-a-given-string/
+// author: ayush dwivedi
+
+#include <bits/stdc++.h>
+
+using namespace std;
+#define debug(...) cout<< " [" << #__VA_ARGS__ ": " << (__VA_ARGS__) << "] " ;
+
+int perm(string exp, int index, string ans){
+    static int count=0;
+//    debug(ans)
+    if(index==exp.length()){
+        count++;
+        cout<<ans<<" ";
+    }
+    for (int i = index; i < exp.length(); ++i) {
+        swap(exp[index],exp[i]);
+        perm(exp,index+1,ans+exp[index]);
+        swap(exp[index],exp[i]);
+    }
+    return count;
+
+}
+int main() {
+    ios_base::sync_with_stdio(0);
+    string exp;
+    cin>>exp;
+    int count=perm(exp,0,"");
+    cout<<"the total no of permutation are: "<<count;
+}
