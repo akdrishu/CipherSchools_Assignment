@@ -1,0 +1,95 @@
+// https://www.geeksforgeeks.org/rearrange-a-linked-list-such-that-all-even-and-odd-positioned-nodes-are-together/
+// author: ayush dwivedi
+
+#include <bits/stdc++.h>
+
+using namespace std;
+#define debug(...) cout<< " [" << #__VA_ARGS__ ": " << (__VA_ARGS__) << "] " ;
+
+class node {
+public:
+    int data;
+    node *next;
+
+    node(int x) {
+        this->data = x;
+        next = NULL;
+    }
+
+    void print(node *head) {
+        cout << "the linked list is: ";
+        node *temp = head;
+        while (temp != NULL) {
+            cout << temp->data << " ";
+            temp = temp->next;
+        }
+        cout << endl;
+    }
+};
+
+node *ll_creation(int n, node *head) {
+    int x;
+    cin >> x;
+    head = new node(x);
+    node *prev = head;
+    for (int i = 0; i < n - 1; ++i) {
+        int y;
+        cin >> y;
+        node *temp = new node(y);
+        prev->next = temp;
+        prev = temp;
+    }
+    return head;
+}
+
+int main() {
+    ios_base::sync_with_stdio(0);
+    int size;
+    cin>>size;
+    node *head;
+    head=ll_creation(size,head);
+    head->print(head);
+    node *odd=NULL, *prev_odd=odd;
+    node *even=NULL, *prev_even=even;
+    node *temp=head;
+    int count_odd=0,count_even=0;
+    while(temp!=NULL){
+        if(temp->data & 1){
+            count_odd++;
+            if(odd==NULL){
+                odd=new node(temp->data);
+                prev_odd=odd;
+            }
+            else{
+                prev_odd->next= new node(temp->data);
+                prev_odd=prev_odd->next;
+            }
+        }
+        else{
+            count_even++;
+            if(even==NULL){
+                even=new node(temp->data);
+                prev_even=even;
+            }
+            else{
+                prev_even->next= new node(temp->data);
+                prev_even=prev_even->next;
+            }
+        }
+        temp=temp->next;
+    }
+    if(count_odd==0){
+        prev_even->next=NULL;
+        even->print(even);
+    }
+    else if(count_even==0){
+        prev_odd->next=NULL;
+        odd->print(odd);
+    }
+    else {
+        prev_odd->next = even;
+        prev_even->next = NULL;
+        odd->print(odd);
+    }
+}
+

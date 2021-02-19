@@ -1,0 +1,78 @@
+ // https://www.geeksforgeeks.org/add-two-numbers-represented-by-linked-lists/
+// author: ayush dwivedi
+
+#include <bits/stdc++.h>
+
+using namespace std;
+#define debug(...) cout<< " [" << #__VA_ARGS__ ": " << (__VA_ARGS__) << "] " ;
+
+class node{
+public:
+    int data;
+    node *next;
+    node(int x){
+        this->data=x;
+        next=NULL;
+    }
+    void print(node *head){
+        cout<<"the linked list is: ";
+        node *temp=head;
+        while(temp!=NULL){
+            cout<<temp->data<<" ";
+            temp=temp->next;
+        }
+        cout<<endl;
+    }
+};
+ node* reverse(node *freq,node **head){
+     if(freq->next==NULL) { (*head)=freq; return freq; }
+     node* temp=reverse( freq->next,&(*head));
+     temp->next=freq;
+     freq->next=NULL;
+     return freq;
+ }
+node* ll_creation(int n, node *head){
+    int x;
+    cin>>x;
+    head = new node(x);
+    node *prev= head;
+    for (int i = 0; i < n-1; ++i) {
+        int y;
+        cin>>y;
+        node *temp= new node(y);
+        prev->next=temp;
+        prev=temp;
+    }
+    return head;
+}
+
+int main() {
+    ios_base::sync_with_stdio(0);
+    int n1,n2;
+    cin>>n1>>n2;
+    node *head1, *head2;
+    head1=ll_creation(n1,head1);
+    head2=ll_creation(n2,head2);
+    head1->print(head1);
+    head2->print(head2);
+    reverse(head1,&head1);
+    reverse(head2,&head2);
+    node *prev,*head=nullptr;
+    bool carry=false;
+    while(head1!=nullptr || head2!=nullptr){
+        int sum=(carry?1:0);
+        if(head1!=NULL)   sum+=head1->data;
+        if(head2!=NULL)   sum+=head2->data;
+        if(head==NULL)  head=new node(sum%10),prev=head;
+        else    prev->next=new node(sum%10),prev=prev->next;
+        carry=(sum>=10);
+        if(head1!=NULL)   head1=head1->next;
+        if(head2!=NULL)   head2=head2->next;
+    }
+    if(carry)   prev->next=new node(1),prev=prev->next;
+    prev->next=NULL;
+    reverse(head,&head);
+    head->print(head);
+
+}
+

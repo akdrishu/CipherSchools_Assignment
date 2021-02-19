@@ -1,0 +1,90 @@
+ // https://www.geeksforgeeks.org/write-a-function-to-get-the-intersection-point-of-two-linked-lists/
+// author: ayush dwivedi
+
+#include <bits/stdc++.h>
+
+using namespace std;
+#define debug(...) cout<< " [" << #__VA_ARGS__ ": " << (__VA_ARGS__) << "] " ;
+
+class node{
+public:
+    int data;
+    node *next;
+    node(int x){
+        this->data=x;
+        next=NULL;
+    }
+    void print(node *head){
+        cout<<"the linked list is: ";
+        node *temp=head;
+        while(temp!=NULL){
+            cout<<temp->data<<" ";
+            temp=temp->next;
+        }
+        cout<<endl;
+    }
+};
+node* ll_creation(int n, node *head){
+    int x;
+    cin>>x;
+    head = new node(x);
+    node *prev= head;
+    for (int i = 0; i < n-1; ++i) {
+        int y;
+        cin>>y;
+        node *temp= new node(y);
+        prev->next=temp;
+        prev=temp;
+    }
+    return head;
+}
+node* intersectPoint(node* head1, node* head2)
+ {
+     if(head1==head2)    return head1;
+     node *temp1=head1, *temp2=head2;
+     int size1=0,size2=0;
+     while(true){
+         if(temp1!=NULL){
+             size1++;
+             temp1=temp1->next;
+         }
+         if(temp2!=NULL){
+             size2++;
+             temp2=temp2->next;
+         }
+         if(temp1==NULL && temp2 ==NULL)  break;
+     }
+     temp1=head1;
+     temp2=head2;
+     int diff=abs(size1-size2);
+     if(size1>size2){
+         while(diff-- >0){
+             temp1=temp1->next;
+         }
+     }
+     if(size1<size2){
+         while(diff-- >0){
+             temp2=temp2->next;
+         }
+     }
+     // cout<<size1<<" "<<size2<<" "<<temp1->data<<" "<<temp2->data<<endl;
+     while(temp1!=temp2 && temp1!=NULL){
+         temp1=temp1->next;
+         temp2=temp2->next;
+     }
+     return temp1;
+ }
+int main() {
+    ios_base::sync_with_stdio(0);
+    node *head1= new node(1);
+    head1->next= new node(2);
+    head1->next->next= new node(3);
+    node *head2 = new node(4);
+    head2->next = new node(5);
+    head2->next=head1->next->next->next = new node(6);
+    head2->next->next=head1->next->next->next->next = new node(7);
+    cout<<"address of intersection point is: "<<intersectPoint(head1,head2)<<" and value of intersection point is: "<<intersectPoint(head1,head2)->data;
+
+
+}
+

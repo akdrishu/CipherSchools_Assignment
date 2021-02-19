@@ -1,0 +1,111 @@
+ // https://www.geeksforgeeks.org/detect-and-remove-loop-in-a-linked-list/
+// author: ayush dwivedi
+
+#include <bits/stdc++.h>
+
+using namespace std;
+#define debug(...) cout<< " [" << #__VA_ARGS__ ": " << (__VA_ARGS__) << "] " ;
+
+class node{
+public:
+    int data;
+    node *next;
+    node(int x){
+        this->data=x;
+        next=NULL;
+    }
+    void print(node *head){
+        cout<<"the linked list is: ";
+        node *temp=head;
+        while(temp!=NULL){
+            cout<<temp->data<<" ";
+            temp=temp->next;
+        }
+        cout<<endl;
+    }
+};
+ bool isLoop(node* head)
+ {
+     if(!head) return false;
+
+     node* fast = head->next;
+     node* slow = head;
+
+     while( fast != slow)
+     {
+         if( !fast || !fast->next ) return false;
+         fast=fast->next->next;
+         slow=slow->next;
+     }
+
+     return true;
+ }
+ void removeLoop(node* head)
+ {
+     if(head==NULL)  return;
+     if(!isLoop(head))  return;
+
+     if(head->next==head)    {head->next=NULL;
+         return;
+     }
+
+     node *slow= head;
+     node *fast= head;
+     node *prev=slow->next;
+     int i=0;
+     while(true){
+         slow=slow->next;
+         fast=fast->next->next;
+         if(i>=1){
+             prev=prev->next->next;
+         }
+         i++;
+
+         if(fast==NULL || fast->next==NULL)  {
+             return;
+         }
+         if(slow==fast){
+             break;
+         }
+     }
+     //cout<<fast->data<<" ";
+     slow=head;
+     while(slow!=fast){
+         slow=slow->next;
+         fast=fast->next;
+         prev=prev->next;
+     }
+     prev->next=NULL;
+     return;
+ }
+node* ll_creation(int n, node *head){
+    int x;
+    cin>>x;
+    head = new node(x);
+    node *prev= head;
+    for (int i = 0; i < n-1; ++i) {
+        int y;
+        cin>>y;
+        node *temp= new node(y);
+        prev->next=temp;
+        prev=temp;
+    }
+    return head;
+}
+
+int main() {
+    ios_base::sync_with_stdio(0);
+    node *head= new node(1);
+    head->next= new node(2);
+    head->next->next= new node(3);
+    head->next->next->next= head;
+//    cout<<isLoop(head);
+    if(isLoop(head)){
+        cout<<"Loop deteced.. now removing loop\n";
+        removeLoop(head);
+        head->print(head);
+    }
+    else cout<<"no loop detected\n";
+
+}
+
