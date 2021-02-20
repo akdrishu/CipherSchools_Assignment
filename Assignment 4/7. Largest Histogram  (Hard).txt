@@ -1,0 +1,30 @@
+#https://www.geeksforgeeks.org/largest-rectangular-area-in-a-histogram-set-1/
+#author: ayush dwivedi
+def getMaxArea(a):
+    stack = list()
+    max_area = 0  
+    index = 0
+    while index < len(a):
+        if (not stack) or (a[stack[-1]] <= a[index]):
+            stack.append(index)
+            index += 1
+        else:
+            top_of_stack = stack.pop()
+            area = (a[top_of_stack] *
+                    ((index - stack[-1] - 1)
+                     if stack else index))
+            max_area = max(max_area, area)
+    while stack:
+        top_of_stack = stack.pop()
+        area = (a[top_of_stack] *
+                ((index - stack[-1] - 1)
+                 if stack else index))
+        max_area = max(max_area, area)
+    return max_area
+
+if __name__ == '__main__':
+    test_cases = int(input())
+    for cases in range(test_cases) :
+        n = int(input())
+        a = list(map(int,input().strip().split()))
+        print(getMaxArea(a))

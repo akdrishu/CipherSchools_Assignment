@@ -1,0 +1,47 @@
+//https://www.geeksforgeeks.org/check-for-balanced-parentheses-in-an-expression/
+// author: ayush dwivedi
+#include "bits/stdc++.h"
+
+using namespace std;
+#define debug(...) cout<< " [" << #__VA_ARGS__ ": " << (__VA_ARGS__) << "] " ;
+typedef long long int ll;
+const ll mod = 1e9 + 7;
+
+bool isbalanced(string &x)
+{
+    stack<int>s;
+    for(char c:x){
+        if(s.empty() && (c == '}' || c == ')' || c == ']'))   return false;
+        if (c=='{'){
+            s.push(1);
+        }
+        if (c=='('){
+            s.push(2);
+        }
+        if (c=='['){
+            s.push(3);
+        }
+        if (c=='}' ){
+            if(s.top()!=1)
+                return false;
+            else s.pop();
+        }
+
+        if (c==')' ){
+            if(s.top()!=2)
+                return false;
+            else s.pop();
+        }
+        if (c==']' ){
+            if(s.top()!=3)
+                return false;
+            else s.pop();
+        }
+    }
+    if(s.empty())   return true;
+}
+int main() {
+    string s;
+    cin>>s;
+    cout<<(isbalanced(s)?"Balanced":"Not balanced");
+}

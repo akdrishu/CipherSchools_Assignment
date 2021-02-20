@@ -1,0 +1,45 @@
+//https://www.geeksforgeeks.org/find-expression-duplicate-parenthesis-not/
+// author: ayush dwivedi
+#include "bits/stdc++.h"
+
+using namespace std;
+#define debug(...) cout<< " [" << __VA_ARGS_ ": " << (_VA_ARGS_) << "] " ;
+typedef long long int ll;
+const ll mod = 1e9 + 7;
+
+
+void is_redundant(string exp) {
+    stack<pair<int, char>> temp;
+    for (int i = 0; i < exp.length(); ++i) {
+        if (exp[i] == '(' || exp[i] == ')') {
+            if (!temp.empty()) {
+                if (temp.size() > 2) {
+                    if (exp[i] == ')') {
+                        if (temp.top().first == i - 1 && temp.top().second == 'C') {
+                            pair<int, char> a = temp.top();
+                            temp.pop();
+                            pair<int, char> b = temp.top();
+                            temp.pop();
+                            pair<int, char> c = temp.top();
+                            if (b.first == c.first + 1 && b.second == 'O' && c.second == 'O') {
+                                cout << "true"; // only here it is invalid else everywhere it is valid
+                                return;
+                            } else {
+                                temp.push(b);
+                                temp.push(a);
+                            }
+                        }
+                    }
+                }
+            }
+            temp.push({i, (exp[i] == '(' ? 'O' : 'C')});
+        }
+    }
+    cout << "false";
+}
+
+int main() {
+    string exp;
+    cin >> exp;
+    is_redundant(exp);
+}

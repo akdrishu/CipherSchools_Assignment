@@ -1,0 +1,53 @@
+//https://www.geeksforgeeks.org/design-a-stack-that-supports-getmin-in-o1-time-and-o1-extra-space/
+// author: ayush dwivedi
+
+#include <bits/stdc++.h>
+
+using namespace std;
+#define debug(...) cout<< " [" << #__VA_ARGS__ ": " << (__VA_ARGS__) << "] " ;
+
+class SpecialStack{
+public:
+    stack<pair<int,int>> temp;
+    int mic=INT_MAX;
+    void push(int x){
+        if(x<mic) mic=x;
+        temp.push({x, mic});
+    }
+    void pop(){
+        if(!temp.empty()){
+            temp.pop();
+        }
+    }
+    int getMin(){
+        return temp.top().second;
+    }
+    void print(){
+        stack<pair<int,int>> temp1;
+        while(!temp.empty()){
+            cout<<temp.top().first<<" ";
+            temp1.push(temp.top());
+            temp.pop();
+        }
+        while(!temp1.empty()){
+            temp.push(temp1.top());
+            temp1.pop();
+        }
+    }
+};
+
+int main() {
+    ios_base::sync_with_stdio(0);
+    SpecialStack obj;
+    obj.push(7);
+    obj.push(6);
+    obj.push(5);
+    cout<<obj.getMin()<<endl;
+    obj.pop();
+    cout<<obj.getMin()<<endl;
+    obj.push(8);
+    obj.push(9);
+    obj.push(10);
+    obj.print();
+}
+

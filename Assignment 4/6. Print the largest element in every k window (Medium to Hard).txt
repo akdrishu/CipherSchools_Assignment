@@ -1,0 +1,23 @@
+//https://www.geeksforgeeks.org/sliding-window-maximum-maximum-of-all-subarrays-of-size-k/
+// author: ayush dwivedi
+#include "bits/stdc++.h"
+
+using namespace std;
+#define debug(...) cout<< " [" << #__VA_ARGS__ ": " << (__VA_ARGS__) << "] " ;
+typedef long long int ll;
+const ll mod = 1e9 + 7;
+
+
+int main() {
+    int n, k;
+    cin >> n >> k;
+    vector<int> a(n);
+    for (auto &x: a) cin >> x;
+    int index, mac = -1;
+    for (int i = 0; i <= n - k; i++) {
+        mac = a[i];
+        for (index = 1; index < k; index++)
+            mac = max(mac, a[i + index]);
+        cout << mac << " ";
+    }
+}

@@ -1,0 +1,27 @@
+//https://www.geeksforgeeks.org/next-greater-element/
+// author: ayush dwivedi
+#include "bits/stdc++.h"
+
+using namespace std;
+#define debug(...) cout<< " [" << #__VA_ARGS__ ": " << (__VA_ARGS__) << "] " ;
+typedef long long int ll;
+const ll mod = 1e9 + 7;
+
+
+int main() {
+    int n;
+    cin >> n;
+    vector<int> a(n), b;
+    for (auto &x: a) cin >> x;
+    vector<ll> ans1;
+    ans1.push_back(-1);
+    stack<int> temp;
+    temp.push(a[n-1]);
+    for(int i=n-2;i>=0;--i){
+        while(!temp.empty() && temp.top()<a[i]) temp.pop();
+        if(temp.empty()) ans1.push_back(-1);
+        else    ans1.push_back(temp.top());
+        temp.push(a[i]);
+    }
+    for(int i=ans1.size()-1;i>=0;--i)    cout<<ans1[i]<<" ";
+}

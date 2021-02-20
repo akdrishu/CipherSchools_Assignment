@@ -1,0 +1,54 @@
+//reversing a stack
+// author: ayush dwivedi
+#include "bits/stdc++.h"
+
+using namespace std;
+#define debug(...) cout<< " [" << #__VA_ARGS__ ": " << (__VA_ARGS__) << "] " ;
+typedef long long int ll;
+const ll mod = 1e9 + 7;
+
+
+int accept(int no, stack<int>& temp)
+{
+
+    if(temp.size() == 0)
+        temp.push(no);
+
+    else
+    {
+
+        int a = temp.top();
+        temp.pop();
+        accept(no,temp);
+
+        temp.push(a);
+    }
+}
+
+int reverse(stack<int> &temp)
+{
+    if(temp.size()>0)
+    {
+        int no = temp.top();
+        temp.pop();
+        reverse(temp);
+        accept(no,temp);
+    }
+}
+int main()
+{   string freq;
+    stack<int> temp;
+    temp.push(1);
+    temp.push(2);
+    temp.push(3);
+    temp.push(4);
+    reverse(temp);
+    while(!temp.empty())
+    {
+        int p=temp.top();
+        temp.pop();
+        freq+=to_string(p);
+    }
+    for(auto &X:freq)   cout<<X<<" ";
+    return 0;
+}
