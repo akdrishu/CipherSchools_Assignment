@@ -1,0 +1,68 @@
+#Construct tree from inorder and postorder traversal (Easy to Medium)
+# author: ayush dwivedi
+def build(In, post, inStrt, inEnd, pIndex):
+    if (inStrt > inEnd):
+        return None
+    temp = tree(post[pIndex[0]])
+    pIndex[0] -= 1
+    if (inStrt == inEnd):
+        return temp
+    iIndex = search(In, inStrt, inEnd, temp.data)
+    temp.right = build(In, post, iIndex + 1,
+                       inEnd, pIndex)
+    temp.left = build(In, post, inStrt,
+                      iIndex - 1, pIndex)
+
+    return temp
+
+
+def buildTree(In, post, n):
+    pIndex = [n - 1]
+    return build(In, post, 0, n - 1, pIndex)
+
+
+def search(arr, strt, end, value):
+    i = 0
+    for i in range(strt, end + 1):
+        if (arr[i] == value):
+            break
+    return i
+
+
+import atexit
+import io
+import sys
+
+_INPUT_LINES = sys.stdin.read().splitlines()
+input = iter(_INPUT_LINES).__next__
+_OUTPUT_BUFFER = io.StringIO()
+sys.stdout = _OUTPUT_BUFFER
+
+
+@atexit.register
+def write():
+    sys.__stdout__.write(_OUTPUT_BUFFER.getvalue())
+
+
+class tree:
+    def __init__(self, data):
+        self.data = data
+        self.left = self.right = None
+
+
+def preOrder(temp):
+    if temp == None:
+        return
+    print(temp.data, end=" ")
+    preOrder(temp.left)
+    preOrder(temp.right)
+
+
+if __name__ == '__main__':
+    test_cases = int(input())
+    for cases in range(test_cases):
+        n = int(input())
+        in_order = list(map(int, input().strip().split()))
+        post_order = list(map(int, input().strip().split()))
+        preOrder(buildTree(in_order, post_order, n))
+        print()

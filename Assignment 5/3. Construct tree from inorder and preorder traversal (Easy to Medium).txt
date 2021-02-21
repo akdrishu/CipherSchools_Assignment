@@ -1,0 +1,76 @@
+//3. Construct tree from inorder and preorder traversal (Easy to Medium)
+// author: ayush dwivedi
+
+#include "bits/stdc++.h"
+
+using namespace std;
+#define debug(...) cout<< " [" << #__VA_ARGS__ ": " << (__VA_ARGS__) << "] " ;
+typedef long long int ll;
+const ll mod = 1e9 + 7;
+
+class tree{
+public:
+    int data;
+    tree *left, *right;
+    tree(int x){
+        this->data=x;
+        this->left=this->right=NULL;
+    }
+};
+
+//tree *build(int index, tree *root, int arr[], int n){
+//    if(index<n){
+//        if(arr[index]==-1)  return NULL; //-1 denotes NULL
+//        tree *temp= new tree(arr[index]);
+//        root = temp;
+//        root->left = build(2*index+1,root->left,arr,n);
+//        root->right = build(2*index+2,root->right,arr,n);
+//    }
+//    return root;
+//}
+int search(int inorder[],int l,int r,int x) {
+    for (int i = l; i < r;i++) {
+        // Check whether same or not
+        if (inorder[i] == x) {
+            return i;
+        }
+    }
+}
+tree *build(int inorder[], int preorder[], int l, int r ){
+    static int index=0;
+    if (l > r) return NULL;
+    index++;
+    tree* temp = new tree(preorder[index]);
+    int x = temp -> data;
+    if (l == r) return temp;
+
+    int ind = search(inorder, l, r,x );
+    temp->left = build(inorder, preorder, l, ind-1);
+    // Recursively call right subtree
+    temp -> right = build(inorder, preorder, ind + 1, r);
+
+    return temp;
+}
+void in_order(tree *root){
+    if(root){
+        in_order(root->left);
+        cout<<root->data<<" ";
+        in_order(root->right);
+    }
+}
+
+int main()
+{
+    int n;
+    cin>>n;
+    int preorder[n];
+    int inorder[n];
+    for (int i = 0; i < n; ++i) {
+        cin>>preorder[i];
+    }
+    for (int i = 0; i < n; ++i) {
+        cin>>inorder[i];
+    }
+    tree *root= build(inorder,preorder,0,n-1);
+    in_order(root);
+}

@@ -1,0 +1,62 @@
+//Print root to leaf path in Binary tree (Easy)
+// author: ayush dwivedi
+
+#include "bits/stdc++.h"
+
+using namespace std;
+#define debug(...) cout<< " [" << #__VA_ARGS__ ": " << (__VA_ARGS__) << "] " ;
+typedef long long int ll;
+const ll mod = 1e9 + 7;
+
+class tree {
+public:
+    int data;
+    tree *left, *right;
+
+    tree(int x) {
+        this->data = x;
+        this->left = this->right = NULL;
+    }
+};
+
+tree *build(int index, tree *root, int arr[], int n) {
+    if (index < n) {
+        if (arr[index] == -1) return NULL; //-1 denotes NULL
+        tree *temp = new tree(arr[index]);
+        root = temp;
+        root->left = build(2 * index + 1, root->left, arr, n);
+        root->right = build(2 * index + 2, root->right, arr, n);
+    }
+    return root;
+}
+
+void inorder(tree *root) {
+    if (root) {
+        inorder(root->left);
+        cout << root->data << " ";
+        inorder(root->right);
+    }
+}
+void findPath(tree *root, int item,string &ans){
+    if(!root)   return;
+    if(item==root->data){
+        return;
+    }
+    int x=root->data;
+    ans+=to_string(x);
+    findPath(root->left,item,ans);
+    findPath(root->right,item,ans);
+    ans.pop_back();
+}
+int main() {
+    int n, item;
+    cin >> n>>item;
+    int arr[n];
+    for (int i = 0; i < n; ++i) {
+        cin >> arr[i];
+    }
+    tree *root = build(0, root, arr, n);
+    string ans;
+    findPath(root, item,ans);
+    for(auto &x: ans)   cout<<x<<"->";
+}

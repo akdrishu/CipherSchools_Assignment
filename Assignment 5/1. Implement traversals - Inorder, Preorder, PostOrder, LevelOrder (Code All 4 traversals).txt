@@ -1,0 +1,78 @@
+//Implement traversals - Inorder, Preorder, PostOrder, LevelOrder
+// author: ayush dwivedi
+
+#include "bits/stdc++.h"
+
+using namespace std;
+#define debug(...) cout<< " [" << #__VA_ARGS__ ": " << (__VA_ARGS__) << "] " ;
+typedef long long int ll;
+const ll mod = 1e9 + 7;
+
+class tree{
+public:
+    int data;
+    tree *left, *right;
+    tree(int x){
+        this->data=x;
+        this->left=this->right=NULL;
+    }
+};
+
+tree *build(int index, tree *root, int arr[], int n){
+    if(index<n){
+        if(arr[index]==-1)  return NULL; //-1 denotes NULL
+        tree *temp= new tree(arr[index]);
+        root = temp;
+        root->left = build(2*index+1,root->left,arr,n);
+        root->right = build(2*index+2,root->right,arr,n);
+    }
+    return root;
+}
+void inorder(tree *root){
+    if(root){
+        inorder(root->left);
+        cout<<root->data<<" ";
+        inorder(root->right);
+    }
+}
+void preorder(tree *root){
+    if(root){
+        cout<<root->data<<" ";
+        inorder(root->left);
+        inorder(root->right);
+    }
+}
+void postorder(tree *root){
+    if(root){
+        inorder(root->left);
+        inorder(root->right);
+        cout<<root->data<<" ";
+    }
+}
+void levelorder(tree *root){
+    queue<tree*> temp;
+    temp.push(root);
+    while(!temp.empty()){
+        cout<<temp.front()->data<<" ";
+        tree *infi= temp.front();
+        temp.pop();
+        if(infi->left)temp.push(infi->left);
+        if(infi->right)temp.push(infi->right);
+    }
+}
+
+int main()
+{
+    int n;
+    cin>>n;
+    int a[n];
+    for (int i = 0; i < n; ++i) {
+        cin>>a[i];
+    }
+    tree *root;
+    root=build(0,root,a,n);
+    inorder(root);
+    preorder(root);
+    postorder(root);
+    levelorder(root);
+}

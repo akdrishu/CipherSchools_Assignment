@@ -1,0 +1,90 @@
+//left and right views of a binary tree
+// author: ayush dwivedi
+
+#include "bits/stdc++.h"
+
+using namespace std;
+#define debug(...) cout<< " [" << #__VA_ARGS__ ": " << (__VA_ARGS__) << "] " ;
+typedef long long int ll;
+const ll mod = 1e9 + 7;
+
+class tree {
+public:
+    int data;
+    tree *left, *right;
+
+    tree(int x) {
+        this->data = x;
+        this->left = this->right = NULL;
+    }
+};
+
+tree *build(int index, tree *root, int arr[], int n) {
+    if (index < n) {
+        if (arr[index] == -1) return NULL; //-1 denotes NULL
+        tree *temp = new tree(arr[index]);
+        root = temp;
+        root->left = build(2 * index + 1, root->left, arr, n);
+        root->right = build(2 * index + 2, root->right, arr, n);
+    }
+    return root;
+}
+
+void inorder(tree *root) {
+    if (root) {
+        inorder(root->left);
+        cout << root->data << " ";
+        inorder(root->right);
+    }
+}
+
+void go_right(vector<int> &vec, tree *root, int level, int &level_right) {
+    if (root == NULL) return;
+    if (level_right < level) {
+        vec.push_back(root->data);
+        level_right = level;
+    }
+    go_right(vec, root->right, level + 1, level_right);
+    go_right(vec, root->left, level + 1, level_right);
+}
+
+vector<int> rightView(tree *root) {
+    int level_right = 0;
+    vector<int> vec;
+    go_right(vec, root, 1, level_right);
+    return vec;
+}
+
+void go_left(vector<int> &vec, tree *root, int level, int &level_left) {
+    if (root == NULL) return;
+
+    if (level_left < level) {
+        vec.push_back(root->data);
+        level_left = level;
+    }
+    go_left(vec, root->left, level + 1, level_left);
+    go_left(vec, root->right, level + 1, level_left);
+}
+
+vector<int> leftView(tree *root) {
+    int level_left = 0;
+    vector<int> vec;
+    go_left(vec, root, 1, level_left);
+    return vec;
+}
+
+int main() {
+    int n;
+    cin >> n;
+    int arr[n];
+    for (int i = 0; i < n; ++i) {
+        cin >> arr[i];
+    }
+    tree *root = build(0, root, arr, n);
+    vector<int> ans_left = leftView(root);
+    cout << "left view:\n";
+    for (auto x: ans_left) cout << x << " ";
+    cout << "\n right view\n";
+    vector<int> ans_right = rightView(root);
+    for (auto x: ans_right) cout << x << " ";
+}
