@@ -1,0 +1,49 @@
+//https://leetcode.com/problems/two-sum/
+// author: ayush dwivedi
+
+#include "bits/stdc++.h"
+
+using namespace std;
+#define debug(...) cout<< " [" << #__VA_ARGS__ ": " << (__VA_ARGS__) << "] " ;
+typedef long long int ll;
+const ll mod = 1e9 + 7;
+
+
+
+vector<int> twoSum(vector<int>& nums, int target) {
+    map<int,int> temp;
+    for(auto x: nums)   temp[x]++;
+    int i1,i2;
+    for(auto y: temp){
+        if(temp[target-y.first] >0){
+            i1=y.first;
+            i2=target-y.first;
+            break;
+        }
+    }
+    for(int i=0;i<nums.size();i++){
+        if(nums[i]==i1) {
+            i1 = i;
+            break;
+        }
+    }
+    for(int i=0;i<nums.size();i++){
+        if(nums[i]==i2 && i1!=i) {
+            i2 = i;
+            break;
+        }
+    }
+    return {i1,i2};
+}
+int main() {
+    int n, target;
+    cin>>n>>target;
+    vector<int> nums;
+    for (int i = 0; i < n; ++i) {
+        int x;
+        cin>>x;
+        nums.push_back(x);
+    }
+    vector<int > ans =twoSum(nums,target);
+    cout<<ans[0] <<" "<<ans[1];
+}

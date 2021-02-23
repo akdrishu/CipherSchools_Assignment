@@ -1,0 +1,58 @@
+//https://www.geeksforgeeks.org/inorder-successor-in-binary-search-tree/
+// author: ayush dwivedi
+
+#include "bits/stdc++.h"
+
+using namespace std;
+#define debug(...) cout<< " [" << #__VA_ARGS__ ": " << (__VA_ARGS__) << "] " ;
+typedef long long int ll;
+const ll mod = 1e9 + 7;
+class tree {
+public:
+    int data;
+    tree *left, *right;
+
+    tree(int x) {
+        this->data = x;
+        this->left = this->right = NULL;
+    }
+};
+
+tree *build(int index, tree *root, int arr[], int n) {
+    if (index < n) {
+        if (arr[index] == -1) return NULL; //-1 denotes NULL
+        tree *temp = new tree(arr[index]);
+        root = temp;
+        root->left = build(2 * index + 1, root->left, arr, n);
+        root->right = build(2 * index + 2, root->right, arr, n);
+    }
+    return root;
+}
+
+void find(tree *root, tree *prev, int target){
+    if(!root)   return;
+    if(prev==NULL){
+        prev=root;
+        return ;
+    }
+    if(prev->data==target){
+        cout<<root->data;
+        return;
+    }
+    find(root->left,root,target);
+    find(root->right,root,target);
+}
+
+
+
+int main() {
+    int n,target;
+    cin>>n>>target;
+    int arr[n];
+    for (int i = 0; i < n; ++i) {
+        cin>>arr[i];
+    }
+    tree *root=build(0,root,arr,n);
+    find(root,NULL,target);
+
+}

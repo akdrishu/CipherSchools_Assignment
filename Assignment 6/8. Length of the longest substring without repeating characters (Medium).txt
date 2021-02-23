@@ -1,0 +1,16 @@
+#https://www.geeksforgeeks.org/length-of-the-longest-substring-without-repeating-characters/
+# author: ayush dwivedi
+def solve(s):
+    vis = {}
+    mac = 0
+    left = 0
+    for right in range(len(s)):
+        if s[right] in vis:
+            left = max(left, vis[s[right]] + 1)
+        vis[s[right]] = right
+        mac = max(mac, right-left + 1)
+    return mac
+s = input()
+print(s)
+ans = solve(s)
+print(ans)

@@ -1,0 +1,30 @@
+//https://www.geeksforgeeks.org/connect-n-ropes-minimum-cost/
+// author: ayush dwivedi
+
+#include "bits/stdc++.h"
+
+using namespace std;
+#define debug(...) cout<< " [" << #__VA_ARGS__ ": " << (__VA_ARGS__) << "] " ;
+typedef long long int ll;
+const ll mod = 1e9 + 7;
+
+int main() {
+    int n;
+    cin>>n;
+    int arr[n];
+    priority_queue<int,vector<int>,greater<ll>> temp;
+    for (int i = 0; i < n; ++i) {
+        cin>>arr[i];
+        temp.push(arr[i]);
+    }
+    int cost=0;
+    while(temp.size()>1){
+        int a= temp.top();
+        temp.pop();
+        int b= temp.top();
+        temp.pop();
+        cost+=(a+b);
+        temp.push(a+b);
+    }
+    cout<<cost;
+}

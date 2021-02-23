@@ -1,0 +1,30 @@
+//https://www.geeksforgeeks.org/maximum-sum-such-that-no-two-elements-are-adjacent/
+// author: ayush dwivedi
+
+#include "bits/stdc++.h"
+
+using namespace std;
+#define debug(...) cout<< " [" << #__VA_ARGS__ ": " << (__VA_ARGS__) << "] " ;
+typedef long long int ll;
+const ll mod = 1e9 + 7;
+
+int main() {
+    int n;
+    cin>>n;
+    int arr[n];
+    for (int i = 0; i < n; ++i) {
+        cin>>arr[i];
+    }
+    int dp[n];
+    if(n<2){
+        cout<<max(arr[0],arr[1]);
+    }
+    else {
+        dp[n - 1] = arr[n - 1];
+        dp[n - 2] = arr[n - 2];
+        for (int i = n - 3; i >= 0; --i) {
+            dp[i] = max(arr[i] + dp[i + 2], dp[i + 1]);
+        }
+        cout << dp[0];
+    }
+}
